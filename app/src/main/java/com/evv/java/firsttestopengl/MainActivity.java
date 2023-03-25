@@ -1,10 +1,12 @@
 package com.evv.java.firsttestopengl;
 
 import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
   GLSurfaceView glSurfaceView;
 
   @Override
@@ -15,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     glSurfaceView.setEGLContextClientVersion(2);
     glSurfaceView.setRenderer(new MyRenderer(this));
 
+    glSurfaceView.setOnTouchListener(this);
     setContentView(glSurfaceView);
   }
 
@@ -28,5 +31,12 @@ public class MainActivity extends AppCompatActivity {
   protected void onPause() {
     super.onPause();
     glSurfaceView.onPause();
+  }
+
+  @Override
+  public boolean onTouch(View v, MotionEvent event) {
+    
+
+    return true;
   }
 }
