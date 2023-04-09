@@ -3,6 +3,7 @@ package com.evv.java.firsttestopengl;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -119,19 +120,28 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     scaleM(modelMatrix,0,2.0f,2.0f,1.0f);
     translateM(modelMatrix,0,-0.5f,-0.5f,0f);
 
-    Matrix.orthoM(projMatrix,0,-1,1,-1,1,-3,4);
-    Matrix.setLookAtM(viewMatrix,0,0.5f,-0.5f,1f,0,0,0,0,1,0);
+    //orthoM(projMatrix,0,-1,1,-1,1,-3,4);
+    perspectiveM(projMatrix,0,45,(float) width / (float) height,0,100);
 
     glViewport(0,0,width,height);
   }
 
+
+  private float angle = 0.0f, radius = 10f;
   @Override
   public void onDrawFrame(GL10 gl) {
+
+
     glUniformMatrix4fv(uModelMatrixLocation, 1, false, modelMatrix, 0);
     glUniformMatrix4fv(uProjMatrixLocation,  1, false, projMatrix, 0);
+
+    angle += 0.01f;
+    Matrix.setLookAtM(viewMatrix, 0, (float)Math.cos(angle) * radius, 0, (float)Math.sin(angle) * radius,
+      0, 0, 0, 0, 1, 0);
     glUniformMatrix4fv(uViewMatrixLocation, 1, false, viewMatrix, 0);
 
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 12);
+
   }
 }
